@@ -74,7 +74,7 @@ augroup init
     autocmd!
     autocmd BufReadCmd */ call NewsplitTermDir(expand('%:p'))
     autocmd BufReadPost quickfix call matchadd('Type', '\(|\d\{1,5} col \d\{1,5}| .*\)\@<=' . substitute(@q, '\\b\|\\\([(){]\)\@=', '', 'g') . '\c') | let @q = ''
-"    autocmd CmdLineLeave set inccommand=nosplit
+    autocmd CmdLineLeave set inccommand=nosplit
     autocmd FocusLost * highlight UserRulerStatus ctermfg=18 | highlight UserRuler ctermfg=18 | set nocursorline
     autocmd FocusGained * highlight UserRulerStatus ctermfg=6 | highlight UserRuler ctermfg=6 | checktime | set cursorline
     autocmd FileType python,cs,typescript,typescriptreact autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()

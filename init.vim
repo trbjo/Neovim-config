@@ -5,10 +5,9 @@ if empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.local/share/nvim/plugged')
-    Plug 'ajh17/VimCompletesMe'
-    Plug 'justinmk/vim-sneak'
-    Plug 'projekt0n/github-nvim-theme'
-    Plug 'tpope/vim-fugitive'
+    "Plug 'ajh17/VimCompletesMe'
+    "Plug 'justinmk/vim-sneak'
+    "Plug 'tpope/vim-fugitive'
     " Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " Plug 'dense-analysis/ale'
     Plug 'sheerun/vim-polyglot'
@@ -16,7 +15,7 @@ call plug#begin('~/.local/share/nvim/plugged')
     "  Plug 'OmniSharp/omnisharp-vim', { 'for': 'cs' }
 call plug#end()
 
-colorscheme github_light
+"'colorscheme github_light
 "set background=light
 set statusline=%=%#UserRulerStatus#%t%m%r%w%0(%4(%p%)\ %)
 set rulerformat=%33(%=%#UserRuler#%t%m%r%w%0(%4(%p%)%)%)
@@ -80,7 +79,6 @@ augroup init
     autocmd FileType python,cs,typescript,typescriptreact autocmd BufWritePre <buffer> :call StripTrailingWhitespaces()
     autocmd InsertEnter * match none
     autocmd QuickFixCmdPost cgetexpr set errorformat&
-    autocmd VimEnter * call ChangeDir()
     autocmd WinLeave,BufWinLeave * if &buftype == 'quickfix' | set rulerformat=%33(%=%#UserRuler#%t%m%r%w%0(%4(%p%)%)%) | endif
     autocmd WinEnter * if &buftype == 'quickfix' | setlocal rulerformat=%30(%=%#UserRuler#\(%l/%{quickfix#length()}%\)) | endif
     autocmd VimLeave * set guicursor=a:ver20
@@ -122,51 +120,3 @@ fun! StripTrailingWhitespaces()
     %s/\s\+$//e
     call cursor(l, c)
 endfun
-
-function! g:ChangeDir()
-    lcd %:p:h
-    if (getcwd() =~ '/ClientApp/')
-        lcd /home/tb/Pilatus.Bank/Pilatus.Bank.WS/ClientApp/
-        return
-    endif
-    let l:git_dir = fnameescape(system('git rev-parse --show-toplevel 2> /dev/null')[:-2])
-    if l:git_dir != ''
-        execute ':lcd ' l:git_dir
-        return
-    endif
-endfunction
-
-
-
-noremap <space> <nop>
-let mapleader="\<Space>"
-
-nnoremap <silent><S-Right> :vertical resize +10<CR>
-nnoremap <silent><S-Up> :resize +10<CR>
-nnoremap <silent><S-Left> :vertical resize -10<CR>
-nnoremap <silent><S-Down> :resize -10<CR>
-
-" Indent
-vnoremap <TAB> >gv
-vnoremap <S-TAB> <gv
-nnoremap <TAB> >>
-nnoremap <S-TAB> <<
-
-" Wrap words
-xnoremap " <ESC>`>a"<ESC>`<i"<ESC>
-xnoremap ' <ESC>`>a'<ESC>`<i'<ESC>
-xnoremap ( <ESC>`>a)<ESC>`<i(<ESC>
-xnoremap [ <ESC>`>a]<ESC>`<i[<ESC>
-xnoremap { <ESC>`>a}<ESC>`<i{<ESC>
-xnoremap < <ESC>`>a><ESC>`<i<<ESC>
-
-nnoremap <F8> :%s/\s\+$//e<CR>
-nnoremap <F7> mzgg=G`zzz
-nnoremap <F12> :echo expand('%:p')<CR>
-
-function! BreakHere()
-    s/^\(\s*\)\(.\{-}\)\(\s*\)\(\%#\)\(\s*\)\(.*\)/\1\2\r\1\4\6
-    call histdel("/", -1)
-endfunction
-
-nnoremap <leader>e :<C-u>call BreakHere()<CR>
